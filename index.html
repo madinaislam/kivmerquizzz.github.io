@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KıvMer Quiz</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f0f0f0;
+      margin: 0;
+      padding: 0;
+      text-align: center;
+    }
+    h1 {
+      color: #333;
+    }
+    .container {
+      width: 90%;
+      max-width: 600px;
+      margin: 20px auto;
+      padding: 20px;
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    input[type="text"] {
+      padding: 10px;
+      font-size: 16px;
+      width: 80%;
+      margin-bottom: 10px;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #007BFF;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    .question {
+      display: none;
+    }
+    .result img {
+      width: 80%;
+      max-width: 300px;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>KıvMer Quiz</h1>
+    <div id="startScreen">
+      <input type="text" id="playerName" placeholder="Adınızı yazın">
+      <button onclick="startQuiz()">Başla</button>
+    </div>
+    <div id="quizScreen" class="question">
+      <p id="questionText"></p>
+      <div id="answers"></div>
+    </div>
+    <div id="resultScreen" class="question">
+      <p id="resultText"></p>
+      <img id="resultImage" src="" alt="">
+    </div>
+  </div>
+
+  <script>
+    const questions = [
+      { 
+        question: "KıvMer ilk defa hangi bölümde öpüşmüştür?", 
+        options: ["8. bölüm", "11. bölüm", "10. bölüm", "9. bölüm"], 
+        answer: "10. bölüm" 
+      },
+      { 
+        question: "KıvMerin birlikte dans edip, düet yaptıkları şarkı hangisidir?", 
+        options: ["Bir ilk bahar sabahı", "Söyle canım", "Kaybolan yıllar"], 
+        answer: "Bir ilk bahar sabahı" 
+      },
+      { 
+        question: "KıvMer'in kutsal buluşma noktası neresidir?", 
+        options: ["Sahil", "Kafe", "Ömer ev", "Park"], 
+        answer: "Kafe" 
+      },
+      { 
+        question: "KıvMer kaç defa evlenip boşanmıştır?", 
+        options: ["3", "2", "4", "1"], 
+        answer: "3" 
+      },
+      { 
+        question: "KıvMer'in ilk boşanmalarında hangi şarkı çalmıştır?", 
+        options: ["Biliyorsun", "Alışamadım", "Nasip değilmiş"], 
+        answer: "Nasip değilmiş" 
+      },
+      { 
+        question: "KıvMer'in favori aktivitesi?", 
+        options: ["Sevişmek", "Tavla oynamak", "Ayrılmak"], 
+        answer: "Tavla oynamak" 
+      },
+      { 
+        question: "Ömer kaçıncı bölümde iç güveysi olmuştur?", 
+        options: ["35. bölüm", "34. bölüm", "29. bölüm", "33. bölüm"], 
+        answer: "34. bölüm" 
+      },
+      { 
+        question: "Ömer'in favori aktivitesi nedir?", 
+        options: ["Birilerini aşağı atmak", "Yüzme", "Kıvılcımla boşanmak", "Kendini tokatlamak"], 
+        answer: "Birilerini aşağı atmak" 
+      },
+      { 
+        question: "Kıvılcım şimdiye kadar kaç işte çalışmıştır?", 
+        options: ["1", "3", "5", "4"], 
+        answer: "4" 
+      },
+      { 
+        question: "Kıvılcımın sahnede söylediği şarkı hangisidir?", 
+        options: ["Kaçın kurası", "Rüyamda buluttum", "Uzaktan"], 
+        answer: "Rüyamda buluttum" 
+      },
+      { 
+        question: "Ömer'in Kıvılcıma temennisi hangisidir?", 
+        options: [
+          "Belki bir gün bu evde ikimiz yaşayız", 
+          "Kim bilir belki de biz evleniriz",  
+          "Belki bir gün, bu evin kadını sen olursun"
+        ], 
+        answer: "Belki bir gün, bu evin kadını sen olursun" 
+      },
+      { 
+        question: "Ömer'in favori yazarı kimdir?", 
+        options: ["Cemal Süreya", "Nazım Hikmet", "Halil Cibran", "Sabahattin Ali"], 
+        answer: "Halil Cibran" 
+      },
+      { 
+        question: "KıvMer hangi şehirde evlenmiştir? (İlk evliliklerinde)", 
+        options: ["Paris", "Roma", "Viyana", "Ankara"], 
+        answer: "Paris" 
+      },
+      { 
+        question: "Kıvılcıma program için mikrofon takıldığında, Ömer'in tepkisi ne olmuştur?", 
+        options: [
+          "Çok güzel oldun aşkım", 
+          "Adamın biri gelip oranı buranı elliyor!", 
+          "Kardeş sen uça biliyor musun?"
+        ], 
+        answer: "Adamın biri gelip oranı buranı elliyor!" 
+      },
+      { 
+        question: "Kıvılcımın Ömer'e ilk evlilik teklifinde, Ömer için aldığı yüzük neydi?", 
+        options: ["Altın alyans", "Gümüş alyans", "Her ikisi"], 
+        answer: "Her ikisi" 
+      }
+    ];
+
+    const results = [
+      { text: "Diziye yeni başladın galiba", minScore: 0, maxScore: 5 },
+      { text: "KıvMerci olmak yolunda emin adımlarla ilerliyorsun, devaaam", minScore: 6, maxScore: 10 },
+      { text: "İşte gerçek Kıvmerci! KıvMer FC başkanlarımız Evrim ve Barış seninle gurur duyuyor", minScore: 11, maxScore: 15 },
+    ];
+
+    let currentQuestion = 0;
+    let score = 0;
+    let playerName = "";
+
+    function startQuiz() {
+      playerName = document.getElementById("playerName").value;
+      if (!playerName) {
+        alert("Lütfen adınızı girin!");
+        return;
+      }
+      document.getElementById("startScreen").style.display = "none";
+      document.getElementById("quizScreen").style.display = "block";
+      showQuestion();
+    }
+
+    function showQuestion() {
+      const question = questions[currentQuestion];
+      document.getElementById("questionText").innerText = question.question;
+      const answersDiv = document.getElementById("answers");
+      answersDiv.innerHTML = "";
+      question.options.forEach(option => {
+        const button = document.createElement("button");
+        button.innerText = option;
+        button.onclick = () => checkAnswer(option);
+        answersDiv.appendChild(button);
+      });
+    }
+
+    function checkAnswer(selected) {
+      if (selected === questions[currentQuestion].answer) {
+        score++;
+      }
+      currentQuestion++;
+      if (currentQuestion < questions.length) {
+        showQuestion();
+      } else {
+        showResult();
+      }
+    }
+
+    function showResult() {
+      document.getElementById("quizScreen").style.display = "none";
+      const result = results.find(r => score >= r.minScore && score <= r.maxScore);
+      document.getElementById("resultText").innerText = `${result.text} - Skorunuz: ${score}`;
+      document.getElementById("resultImage").src = result.image;
+      document.getElementById("resultScreen").style.display = "block";
+    }
+  </script>
+</body>
+</html>
